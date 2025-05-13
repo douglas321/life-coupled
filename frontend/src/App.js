@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState('Loading...');
 
   useEffect(() => {
-    fetch('/api/hello') // Will be proxied to localhost:8080
-      .then(response => response.text())
-      .then(data => setMessage(data));
+    fetch('http://localhost:8080/api/hello')
+      .then(res => res.text())
+      .then(setMessage)
+      .catch(err => setMessage('Error: ' + err.message));
   }, []);
 
-  return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>{message || 'Loading...'}</h1>
-    </div>
-  );
+  return <h1>{message}</h1>;
 }
 
 export default App;
